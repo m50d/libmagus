@@ -35,6 +35,7 @@
 									<mainClass>net.homelinux.md401.magus.FileHandler</mainClass>
 								</transformer>
 							</transformers>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
 						</configuration>
 					</execution>
 				</executions>
