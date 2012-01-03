@@ -1,5 +1,7 @@
 package net.homelinux.md401.magus.anidb;
 
+import java.util.Set;
+
 import net.anidb.udp.AniDbException;
 import net.anidb.udp.ConnectionAccessor;
 import net.anidb.udp.UdpConnection;
@@ -9,6 +11,7 @@ import net.anidb.udp.UdpRequest;
 import net.anidb.udp.UdpResponse;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableSet;
 
 public class ConnectionWrapper {
 	private final UdpConnectionFactory factory;
@@ -44,8 +47,10 @@ public class ConnectionWrapper {
 		});
 	}
 
-	public void add(final String username, final String password, final int fileSize,
-			final String ed2kHash, final boolean watched)
+	private static final Set<Integer> SUCCESS_CODES = ImmutableSet.of(210, 310);
+
+	public void add(final String username, final String password,
+			final int fileSize, final String ed2kHash, final boolean watched)
 			throws UdpConnectionException, AniDbException {
 		performWithAuthentication(username, password,
 				new Function<UdpConnection, Void>() {
@@ -57,14 +62,31 @@ public class ConnectionWrapper {
 						request.addParameter("size", fileSize);
 						request.addParameter("ed2k", ed2kHash);
 						request.addParameter("viewed", watched);
-						final UdpResponse response;
+						UdpResponse response;
 						try {
-							response = ConnectionAccessor.communicate(from, request);
+							response = ConnectionAccessor.communicate(from,
+									request);
 						} catch (final UdpConnectionException e) {
 							throw new RuntimeException(e);
 						}
-						if(210 != response.getReturnCode()) throw new RuntimeException(response.getMessageString());
-						return null;
+						switch (response.getReturnCode()) {
+						case 210:
+							return null;
+						case 310:
+							request.addParameter("edit", true);
+							try {
+								response = ConnectionAccessor.communicate(from,
+										request);
+							} catch (UdpConnectionException e) {
+								throw new RuntimeException(e);
+							}
+							if (311 == response.getReturnCode())
+								return null;
+						default:
+							throw new RuntimeException("Error code: "
+									+ response.getReturnCode() + ", message: "
+									+ response.getMessageString());
+						}
 					}
 				});
 	}
