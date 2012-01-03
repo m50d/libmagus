@@ -5,6 +5,7 @@
 	<artifactId>libmagus</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<properties>
+		<slf4j.version>1.6.4</slf4j.version>
 		<powermock.version>1.4.10</powermock.version>
 	</properties>
 	<build>
@@ -41,6 +42,16 @@
 		</plugins>
 	</build>
 	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>net.anidb</groupId>
 			<artifactId>javaanidbapi</artifactId>
