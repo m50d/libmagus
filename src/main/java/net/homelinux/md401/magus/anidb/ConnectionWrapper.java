@@ -1,7 +1,5 @@
 package net.homelinux.md401.magus.anidb;
 
-import java.util.Set;
-
 import net.anidb.udp.AniDbException;
 import net.anidb.udp.ConnectionAccessor;
 import net.anidb.udp.UdpConnection;
@@ -11,9 +9,6 @@ import net.anidb.udp.UdpRequest;
 import net.anidb.udp.UdpResponse;
 import net.homelinux.md401.magus.FailureException;
 import net.homelinux.md401.magus.FunctionThrows;
-
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableSet;
 
 public class ConnectionWrapper {
 	private static void anidbError(final AniDbException e)
@@ -63,8 +58,6 @@ public class ConnectionWrapper {
 			}
 		});
 	}
-
-	private static final Set<Integer> SUCCESS_CODES = ImmutableSet.of(210, 310);
 
 	public void add(final String username, final String password,
 			final int fileSize, final String ed2kHash, final boolean watched)
