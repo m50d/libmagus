@@ -1,14 +1,16 @@
 package net.homelinux.md401.magus.anidb;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.anyInt;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.util.List;
 
-import net.anidb.udp.AniDbException;
 import net.anidb.udp.UdpConnection;
-import net.anidb.udp.UdpConnectionException;
 import net.anidb.udp.UdpConnectionFactory;
+import net.homelinux.md401.magus.FailureException;
+import net.homelinux.md401.magus.FunctionThrows;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +19,12 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(UdpConnectionFactory.class)
 public class ConnectionWrapperTest {
-	private static interface MockFunction extends Function<UdpConnection, Object>{}
+	private static interface MockFunction extends FunctionThrows<UdpConnection, Object, FailureException>{}
 	private UdpConnectionFactory factory;
 	private UdpConnection connection;
 	private MockFunction function;
@@ -55,7 +56,7 @@ public class ConnectionWrapperTest {
 		verify();
 	}
 
-	private Object commonFunctionExpectations() throws UdpConnectionException, AniDbException {
+	private Object commonFunctionExpectations() throws Exception {
 		final Object expected = new Object();
 		expect(factory.connect(anyInt())).andReturn(connection);
 		expect(function.apply(connection)).andReturn(expected);
