@@ -11,10 +11,10 @@ import net.homelinux.md401.magus.ed2k.JacksumWrapper;
 public class FileHandler {
 	private final ConnectionWrapper connectionWrapper = new ConnectionWrapper();
 
-	public void addFile(final String username, final String password, final boolean watched, final File data) {
+	public void addFile(final CharSequence username, final CharSequence password, final boolean watched, final File data) {
 		try {
 			final String hash = JacksumWrapper.ed2k(data.getAbsolutePath());
-			connectionWrapper.add(username, password, (int) data.length(), hash, watched);
+			connectionWrapper.add(username.toString(), password.toString(), (int) data.length(), hash, watched);
 		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		} catch (final UdpConnectionException e) {
