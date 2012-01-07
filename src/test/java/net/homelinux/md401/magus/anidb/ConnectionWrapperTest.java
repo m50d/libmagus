@@ -69,7 +69,7 @@ public class ConnectionWrapperTest {
 		final String username="USERNAME";
 		final String password="PASSWORD";
 		final Object expected = commonFunctionExpectations();
-		connection.authenticate(username, password);
+		connection.authenticate(username, password, "magus", 0);
 		replay();
 		assertThat(wrapper.performWithAuthentication(username, password, function)).isEqualTo(expected);
 		verify();
