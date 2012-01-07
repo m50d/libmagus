@@ -48,7 +48,7 @@ public class ConnectionWrapper {
 			@Override
 			public T apply(final UdpConnection arg0) throws FailureException {
 				try {
-					arg0.authenticate(username, password);
+					arg0.authenticate(username, password, "magus", 0);
 				} catch (final AniDbException e) {
 					anidbError(e);
 				} catch (final UdpConnectionException e) {
