@@ -8,6 +8,11 @@
 		<slf4j.version>1.6.4</slf4j.version>
 		<powermock.version>1.4.10</powermock.version>
 	</properties>
+	<scm>
+		<connection>scm:git:git@github.com:m50d/libmagus.git</connection>
+		<url>scm:git:git@github.com:m50d/libmagus.git</url>
+		<developerConnection>scm:git:git@github.com:m50d/libmagus.git</developerConnection>
+	</scm>
 	<build>
 		<plugins>
 			<plugin>
